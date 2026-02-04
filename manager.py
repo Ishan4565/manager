@@ -68,5 +68,15 @@ try:
         with col3:
             st.metric("Available Seats", seats_data["available"], f"-{seats_data['booked']} booked")
         
-        with col4:
-            excellence_rate = (stats["excellent_ratings"] / stats["total_reviews"] * 100) if stats["total_reviews"] > 0 else
+       with col4:
+            # Added a check to ensure total_reviews is not None or Zero
+            total = stats.get("total_reviews", 0)
+            excellent = stats.get("excellent_ratings", 0)
+            
+            excellence_rate = (excellent / total * 100) if total > 0 else 0
+            
+            st.metric(
+                "Excellence Rate", 
+                f"{round(excellence_rate, 1)}%",
+                help="Percentage of 'Excellent' ratings"
+            )
